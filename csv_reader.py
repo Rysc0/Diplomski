@@ -3,18 +3,22 @@ from openpyxl import load_workbook
 from openpyxl.styles import Alignment
 from openpyxl.styles import Border, Side, Font
 import matplotlib.pyplot as plt
+import sys
+filePath = str(sys.argv[1])
+OUTPUTFILE = filePath[:-4] + 'DATA.xlsx'
+CPUREADINGSFILE = f'temp_{filePath[:-4]}.csv'
 
 # Read using multi-row headers
-df = pd.read_csv('test_aircrack01.csv', header=[2, 3])
+df = pd.read_csv(filePath, header=[2, 3])
 # Show the top of the DataFrame
 print(df.head())
 
-df.to_excel('output.xlsx', header=[2, 3])
+df.to_excel(OUTPUTFILE, header=[2, 3])
 
 
 
 # Load the workbook
-wb = load_workbook('output.xlsx')
+wb = load_workbook(OUTPUTFILE)
 
 # Select the active sheet (or use wb['SheetName'])
 ws = wb.active
@@ -29,7 +33,7 @@ ws.merge_cells('X4:AA4')
 
 
 # Add CPU temp & freq readings
-cf = pd.read_csv('temp_freq_raw.csv')
+cf = pd.read_csv(CPUREADINGSFILE)
 print(cf.head())
 
 ws.merge_cells('AB4:AC4')
@@ -109,8 +113,13 @@ for row in ws['A4:AC15']:
         cell.font = Font(bold=True)
         cell.border = border
 
+for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=1, max_col=29):
+    for cell in row:
+        cell.font = Font(bold=True)
+        cell.border = border
+        cell.alignment = Alignment(horizontal='center', vertical='center')
 
 # Save changes to a new file or overwrite
-wb.save('output.xlsx')
+wb.save(OUTPUTFILE)
 
 #TODO: Add temperature and frequency readings to the sheet

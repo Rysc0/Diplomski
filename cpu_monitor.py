@@ -10,6 +10,8 @@ CPU_FREQUENCY_PATH = '/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq'
 TIME_BETWEEN_MEASUREMENTS = int(sys.argv[1])
 # time in minutes
 NUM_OF_MEASUREMENTS = int(sys.argv[2])
+
+OUTPUTFILE = str(sys.argv[3])
 # NUM_OF_MEASUREMENTS = 10
 # TIME_BETWEEN_MEASUREMENTS = 2
 READINGS = []
@@ -30,7 +32,7 @@ while NUM_OF_MEASUREMENTS > -1:
 
 print("READINGS: ", READINGS)
 
-with open("temp_freq_raw.csv", 'w') as output:
+with open(OUTPUTFILE, 'w') as output:
     writer = csv.writer(output)
     writer.writerow(["Time", "Temperature", "Frequency"]) # HEADER
     writer.writerows(READINGS)
