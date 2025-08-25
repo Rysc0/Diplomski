@@ -11,7 +11,7 @@ TIME_BETWEEN_MEASUREMENTS = int(sys.argv[1])
 # time in minutes
 NUM_OF_MEASUREMENTS = int(sys.argv[2])
 
-OUTPUTFILE = str(sys.argv[3])
+OUTPUTFILE = "temp_" + str(sys.argv[3])
 # NUM_OF_MEASUREMENTS = 10
 # TIME_BETWEEN_MEASUREMENTS = 2
 READINGS = []
