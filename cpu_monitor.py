@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 import time
 
-CPU_TEMP_PATH = '/sys/class/hwmon/hwmon2/temp1_input'
+CPU_TEMP_PATH = '/sys/class/hwmon/hwmon0/temp1_input'
 CPU_FREQUENCY_PATH = '/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq'
 
 # time in seconds
