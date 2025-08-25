@@ -4,8 +4,8 @@ from openpyxl.styles import Alignment
 from openpyxl.styles import Border, Side, Font
 import matplotlib.pyplot as plt
 import sys
-# filePath = str(sys.argv[1])
-filePath = 'network-test.csv'
+filePath = str(sys.argv[1])
+# filePath = 'network-test.csv'
 OUTPUTFILE = filePath[:-4] + 'DATA.xlsx'
 CPUREADINGSFILE = f'temp_{filePath[:-4]}.csv'
 try:
@@ -40,6 +40,9 @@ if NETWORK_ENABLED:
     ws.merge_cells('AB4:AC4')
     ws.merge_cells('AD4:AE4')
     ws.merge_cells('AF4:AG4')
+    ws.merge_cells('AH4:AI4')
+    ws.merge_cells('AJ4:AK4')
+    ws.merge_cells('AL4:AM4')
 
    
 
@@ -47,22 +50,22 @@ if NETWORK_ENABLED:
 cf = pd.read_csv(CPUREADINGSFILE)
 print(cf.head())
 
-ws.merge_cells('AH4:AI4')
-ws.cell(row=4, column=34 if NETWORK_ENABLED else 28).value = 'CPU monitor'
-ws.cell(row=5, column=34 if NETWORK_ENABLED else 28).value = 'Temperature'
-ws.cell(row=5, column=35 if NETWORK_ENABLED else 29).value = 'Frequency'
+ws.merge_cells('AN4:AO4' if NETWORK_ENABLED else 'AB4:AC4')
+ws.cell(row=4, column=40 if NETWORK_ENABLED else 28).value = 'CPU monitor'
+ws.cell(row=5, column=40 if NETWORK_ENABLED else 28).value = 'Temperature'
+ws.cell(row=5, column=41 if NETWORK_ENABLED else 29).value = 'Frequency'
 
 temperatures = cf['Temperature']
 frequencies = cf['Frequency']
 
 # Load temperatures
 for i, row in zip(range(0, len(temperatures)), range(6, ws.max_row + 1)):
-    cell = ws.cell(row=row, column=34 if NETWORK_ENABLED else 28)
+    cell = ws.cell(row=row, column=40 if NETWORK_ENABLED else 28)
     cell.value = temperatures[i] / 1000 # Convert from milidegree C to C
 
 # Load frequencies
 for i, row in zip(range(0, len(frequencies)), range(6, ws.max_row + 1)):
-    cell = ws.cell(row=row, column=35 if NETWORK_ENABLED else 29)
+    cell = ws.cell(row=row, column=41 if NETWORK_ENABLED else 29)
     cell.value = round(frequencies[i] / 1000000, 3) # Convert from raw kHz to GHz
 
 
@@ -124,7 +127,7 @@ for row in ws['A4:AC15']:
         cell.font = Font(bold=True)
         cell.border = border
 
-for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=1, max_col=35 if NETWORK_ENABLED else 29):
+for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=1, max_col=41 if NETWORK_ENABLED else 29):
     for cell in row:
         cell.font = Font(bold=True)
         cell.border = border
