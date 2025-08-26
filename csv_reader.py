@@ -95,25 +95,26 @@ for column in range(2, 5):
             print("OLD VALUE: ", cell.value)
             cell.value = float(cell.value)
             print("NEW VALUE: ", cell.value)
-            
-# convert net/etho values to KB/s (this handles dstat -n)
-for column in range(28, 33):
-    for row in range(6, ws.max_row + 1):  # start at 2 to skip header
-        cell = ws.cell(row=row, column=column)  # Column C
-        if isinstance(cell.value, str):
-            print("OLD VALUE: ", cell.value)
-            cell.value = round(float(cell.value)/1024, 2)
-            print("NEW VALUE: ", cell.value)
-            
-            
-# convert pkt/eth0 to round number of packets received/sent
-for column in range(34, 39):
-    for row in range(6, ws.max_row + 1):  # start at 2 to skip header
-        cell = ws.cell(row=row, column=column)  # Column C
-        if isinstance(cell.value, str):
-            print("OLD VALUE: ", cell.value)
-            cell.value = round(float(cell.value))
-            print("NEW VALUE: ", cell.value)
+
+if NETWORK_ENABLED:
+    # convert net/etho values to KB/s (this handles dstat -n)
+    for column in range(28, 33):
+        for row in range(6, ws.max_row + 1):  # start at 2 to skip header
+            cell = ws.cell(row=row, column=column)  # Column C
+            if isinstance(cell.value, str):
+                print("OLD VALUE: ", cell.value)
+                cell.value = round(float(cell.value)/1024, 2)
+                print("NEW VALUE: ", cell.value)
+
+
+    # convert pkt/eth0 to round number of packets received/sent
+    for column in range(34, 39):
+        for row in range(6, ws.max_row + 1):  # start at 2 to skip header
+            cell = ws.cell(row=row, column=column)  # Column C
+            if isinstance(cell.value, str):
+                print("OLD VALUE: ", cell.value)
+                cell.value = round(float(cell.value))
+                print("NEW VALUE: ", cell.value)
 
 
 # convert timestamps into numbers
