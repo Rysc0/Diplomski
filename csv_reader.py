@@ -95,6 +95,25 @@ for column in range(2, 5):
             print("OLD VALUE: ", cell.value)
             cell.value = float(cell.value)
             print("NEW VALUE: ", cell.value)
+            
+# convert net/etho values to KB/s (this handles dstat -n)
+for column in range(28, 33):
+    for row in range(6, ws.max_row + 1):  # start at 2 to skip header
+        cell = ws.cell(row=row, column=column)  # Column C
+        if isinstance(cell.value, str):
+            print("OLD VALUE: ", cell.value)
+            cell.value = round(float(cell.value)/1024, 2)
+            print("NEW VALUE: ", cell.value)
+            
+            
+# convert pkt/eth0 to round number of packets received/sent
+for column in range(34, 39):
+    for row in range(6, ws.max_row + 1):  # start at 2 to skip header
+        cell = ws.cell(row=row, column=column)  # Column C
+        if isinstance(cell.value, str):
+            print("OLD VALUE: ", cell.value)
+            cell.value = round(float(cell.value))
+            print("NEW VALUE: ", cell.value)
 
 
 # convert timestamps into numbers
@@ -122,7 +141,7 @@ thin = Side(border_style="thin", color="000000")
 border = Border(top=thin, left=thin, right=thin, bottom=thin)
 
 # Apply to each cell in the range
-for row in ws['A4:AC15']:
+for row in ws['A4:AC15']: # I think this can be removed. The loop under is doing the full job
     for cell in row:
         cell.font = Font(bold=True)
         cell.border = border
